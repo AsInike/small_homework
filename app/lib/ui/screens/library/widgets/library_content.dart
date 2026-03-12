@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../../model/songs/song.dart';
-import '../../../states/settings_state.dart';
 import '../../../theme/theme.dart';
+import '../../../widgets/song/song_tile.dart';
 import '../view_model/library_view_model.dart';
 
 class LibraryContent extends StatelessWidget {
@@ -11,59 +9,31 @@ class LibraryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Read only LibraryViewModel and AppSettingsState
-    LibraryViewModel viewModel = context.watch<LibraryViewModel>();
-    AppSettingsState settingsState = context.watch<AppSettingsState>();
+    // 1- Read the globbal song repository
+    LibraryViewModel mv = context.watch<LibraryViewModel>();
 
-    return Container(
-      color: settingsState.theme.backgroundColor,
-    
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 16),
           Text("Library", style: AppTextStyles.heading),
-
           SizedBox(height: 50),
-
+      
           Expanded(
             child: ListView.builder(
-              itemCount: viewModel.songs.length,
+              itemCount: mv.songs.length,
               itemBuilder: (context, index) => SongTile(
-                song: viewModel.songs[index],
-                isPlaying: viewModel.isPlaying(viewModel.songs[index]),
+                song: mv.songs[index],
+                isPlaying: mv.isSongPlaying(mv.songs[index]) ,
                 onTap: () {
-                  viewModel.playSong(viewModel.songs[index]);
+                  mv.start(mv.songs[index]);
                 },
               ),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class SongTile extends StatelessWidget {
-  const SongTile({
-    super.key,
-    required this.song,
-    required this.isPlaying,
-    required this.onTap,
-  });
-
-  final Song song;
-  final bool isPlaying;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      title: Text(song.title),
-      trailing: Text(
-        isPlaying ? "Playing" : "",
-        style: TextStyle(color: Colors.amber),
       ),
     );
   }

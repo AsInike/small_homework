@@ -6,30 +6,54 @@ import 'song_repository.dart';
 class SongRepositoryMock implements SongRepository {
   final List<Song> _songs = [
     Song(
-      id: '101',
+      id: 's1',
       title: 'Mock Song 1',
       artist: 'Mock Artist',
       duration: const Duration(minutes: 2, seconds: 50),
     ),
     Song(
-      id: '102',
+      id: 's2',
       title: 'Mock Song 2',
+      artist: 'Mock Artist',
+      duration: const Duration(minutes: 3, seconds: 20),
+    ),
+    Song(
+      id: 's3',
+      title: 'Mock Song 3',
+      artist: 'Mock Artist',
+      duration: const Duration(minutes: 3, seconds: 20),
+    ),
+    Song(
+      id: 's4',
+      title: 'Mock Song 4',
+      artist: 'Mock Artist',
+      duration: const Duration(minutes: 3, seconds: 20),
+    ),
+    Song(
+      id: 's5',
+      title: 'Mock Song 5',
       artist: 'Mock Artist',
       duration: const Duration(minutes: 3, seconds: 20),
     ),
   ];
 
   @override
-  List<Song> fetchSongs() {
+  Future<List<Song>> fetchSongs() async {
     return _songs;
   }
 
   @override
-  Song? fetchSongById(String id) {
+  Future<Song?> fetchSongById(String id) async {
+    // - Simulate a delay of 3 seconds.
+    await Future.delayed(const Duration(seconds: 3));
+    // - After the delay : Find the song of given id in the list of songs and return it
     try {
       return _songs.firstWhere((song) => song.id == id);
-    } catch (_) {
-      return null;
     }
+    // - If not found : Throw an error with the message “no song found for id 25 in the database"
+    catch (e) {
+      throw Exception("no song found for id $id in the database");
+    }
+    // TO CHANGE !
   }
 }
