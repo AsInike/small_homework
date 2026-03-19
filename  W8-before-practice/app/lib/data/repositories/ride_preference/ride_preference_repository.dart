@@ -10,12 +10,6 @@ abstract class RidePreferenceRepository {
   /// Add a preference to history.
   void addPreferenceToHistory(RidePreference preference);
 
-  /// Get the currently selected preference.
-  RidePreference? getSelectedPreference();
-
-  /// Set the selected preference and keep history in sync.
-  void selectPreference(RidePreference preference);
-
   /// Get the maximum allowed seats.
   int getMaxAllowedSeats();
 }

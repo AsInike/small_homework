@@ -1,6 +1,6 @@
 import '../../../model/ride_pref/ride_pref.dart';
 import 'package:flutter/material.dart';
-import '../../../main_common.dart';
+import '../../states/ride_preference_state.dart';
 import '../../../utils/animations_util.dart';
 import '../../theme/theme.dart';
 import '../../widgets/pickers/ride_preference/bla_ride_preference_picker.dart';
@@ -23,19 +23,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   void onRidePrefSelected(RidePreference selectedPreference) async {
-    final ridePreferenceRepository =
-        RepositoryProvider.of(context).ridePreferenceRepository;
+    final ridePreferenceState = RidePreferenceStateProvider.of(context);
 
-    // 1- Ask the service to update the current preference
-    ridePreferenceRepository.selectPreference(selectedPreference);
+    // 1- Update the selected preference in global state
+    ridePreferenceState.selectPreference(selectedPreference);
 
     // 2 - Navigate to the rides screen
     await Navigator.of(
       context,
     ).push(AnimationUtils.createBottomToTopRoute(RidesSelectionScreen()));
 
-    // 3 - After wait  - Update the state   - TODO Improve this with proper state managagement
-    setState(() {});
+    // 3 - State updates are propagated through listeners.
   }
 
   @override
@@ -69,9 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               // 2 - THE FORM
               BlaRidePreferencePicker(
-                initRidePreference: RepositoryProvider.of(
+                initRidePreference: RidePreferenceStateProvider.of(
                   context,
-                ).ridePreferenceRepository.getSelectedPreference(),
+                ).selectedPreference,
                onRidePreferenceSelected: onRidePrefSelected,
               ),
               SizedBox(height: BlaSpacings.m),
@@ -87,9 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildHistory() {
     // Reverse the history of preferences
-    List<RidePreference> history = RepositoryProvider.of(
+    List<RidePreference> history = RidePreferenceStateProvider.of(
       context,
-    ).ridePreferenceRepository.getPreferenceHistory().reversed.toList();
+    ).preferenceHistory.reversed.toList();
     return SizedBox(
       height: 200, // Set a fixed height
       child: ListView.builder(

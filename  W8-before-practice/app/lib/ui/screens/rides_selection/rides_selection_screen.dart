@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../model/ride/ride.dart';
 import '../../../model/ride_pref/ride_pref.dart';
 import '../../../main_common.dart';
+import '../../states/ride_preference_state.dart';
 import '../../../utils/animations_util.dart' show AnimationUtils;
 import '../../theme/theme.dart';
 import '../../widgets/pickers/location/bla_ride_preference_modal.dart';
@@ -35,9 +36,8 @@ class _RidesSelectionScreenState extends State<RidesSelectionScreen> {
   }
 
   RidePreference get selectedRidePreference {
-    final selectedPreference = RepositoryProvider.of(
-      context,
-    ).ridePreferenceRepository.getSelectedPreference();
+    final selectedPreference =
+        RidePreferenceStateProvider.of(context).selectedPreference;
     assert(selectedPreference != null, 'Selected preference cannot be null');
     return selectedPreference!;
   }
@@ -58,13 +58,8 @@ class _RidesSelectionScreenState extends State<RidesSelectionScreen> {
     if (!mounted) return;
 
     if (newPreference != null) {
-      // 2 - Ask the service to update the current preference
-      RepositoryProvider.of(
-        context,
-      ).ridePreferenceRepository.selectPreference(newPreference);
-
-      // 3 -   Update the widget state  - TODO Improve this with proper state managagement
-      setState(() {});
+      // 2 - Update the selected preference in global state
+      RidePreferenceStateProvider.of(context).selectPreference(newPreference);
     }
   }
 

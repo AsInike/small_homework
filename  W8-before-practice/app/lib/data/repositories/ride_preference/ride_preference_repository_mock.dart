@@ -8,7 +8,6 @@ import 'ride_preference_repository.dart';
 class RidePreferenceRepositoryMock implements RidePreferenceRepository {
   final List<RidePreference> _preferenceHistory = List.from(fakeRidePrefs);
   final int _maxAllowedSeats = 8;
-  RidePreference? _selectedPreference;
 
   @override
   List<RidePreference> getPreferenceHistory() {
@@ -18,19 +17,6 @@ class RidePreferenceRepositoryMock implements RidePreferenceRepository {
   @override
   void addPreferenceToHistory(RidePreference preference) {
     _preferenceHistory.add(preference);
-  }
-
-  @override
-  RidePreference? getSelectedPreference() {
-    return _selectedPreference;
-  }
-
-  @override
-  void selectPreference(RidePreference preference) {
-    if (_selectedPreference != preference) {
-      _selectedPreference = preference;
-      addPreferenceToHistory(preference);
-    }
   }
 
   @override

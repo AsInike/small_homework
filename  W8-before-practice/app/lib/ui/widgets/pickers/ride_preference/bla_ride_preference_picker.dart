@@ -2,9 +2,9 @@ import '/ui/widgets/buttons/bla_button.dart';
 import '/ui/widgets/display/bla_divider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../main_common.dart';
 import '../../../../model/ride/locations.dart';
 import '../../../../model/ride_pref/ride_pref.dart';
+import '../../../states/ride_preference_state.dart';
 import '../../../../utils/animations_util.dart';
 import '../../../../utils/date_time_utils.dart';
 import '../../../theme/theme.dart';
@@ -114,9 +114,7 @@ class _BlaRidePreferencePickerState extends State<BlaRidePreferencePicker> {
       AnimationUtils.createRightToLeftRoute(
         BlaSeatPicker(
           initSeats: requestedSeats,
-          maxSeat: RepositoryProvider.of(
-            context,
-          ).ridePreferenceRepository.getMaxAllowedSeats(),
+          maxSeat: RidePreferenceStateProvider.of(context).maxAllowedSeats,
         ),
       ),
     );
