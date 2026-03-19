@@ -2,15 +2,15 @@ import '/ui/widgets/buttons/bla_button.dart';
 import '/ui/widgets/display/bla_divider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/ride/locations.dart';
-import '../../../model/ride_pref/ride_pref.dart';
-import '../../../main_common.dart';
-import '../../../utils/animations_util.dart';
-import '../../../utils/date_time_utils.dart';
-import '../../theme/theme.dart';
-import '../buttons/bla_icon_button.dart';
-import 'bla_location_picker.dart';
-import 'bla_seat_picker.dart';
+import '../../../../main_common.dart';
+import '../../../../model/ride/locations.dart';
+import '../../../../model/ride_pref/ride_pref.dart';
+import '../../../../utils/animations_util.dart';
+import '../../../../utils/date_time_utils.dart';
+import '../../../theme/theme.dart';
+import '../../buttons/bla_icon_button.dart';
+import '../location/bla_location_picker.dart';
+import '../seat/bla_seat_picker.dart';
 
 ///
 /// A  RidePreference Picker is a view to pick a RidePreference:
